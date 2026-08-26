@@ -1,14 +1,39 @@
 <html>
-    <head>
-        <title>Drawing!</title>
-    </head>
-    <body>
-        <canvas id="canv">
 
-        </canvas>
-        <script>
-            let canvas = document.querySelector("#canv")
-            let ctx = canvas.getContext("2d")
+<head>
+    <title>Game Loop</title>
+    <style>
+        *{
+            margin:0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canv">
+
+    </canvas>
+    <script src="Vector2.js"></script>
+    <script>
+        let canvas = document.querySelector("#canv")
+        let ctx = canvas.getContext("2d")
+
+
+
+        let position = new Vector2(50, 50)
+
+        function gameLoop() {
+            update()
+            draw()
+            requestAnimationFrame(gameLoop)
+        }
+
+        function update() {
+            position.x = position.x + .1
+        }
+
+        function draw() {
 
             //Expand the size of the canvas
             canvas.width = window.innerWidth
@@ -18,7 +43,7 @@
             ctx.save()
 
             //Set center of our object
-            ctx.translate(50, 75)
+            ctx.translate(position.x, position.y)
 
             ctx.lineTo(0, -20)
             ctx.lineTo(10, -30)
@@ -33,6 +58,11 @@
 
             //Signaling that I'm done drawing
             ctx.restore()
-        </script>
-    </body>
+        }
+
+        requestAnimationFrame(gameLoop)
+
+    </script>
+</body>
+
 </html>
