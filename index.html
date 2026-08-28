@@ -1,8 +1,12 @@
-<html>
+<!doctype html> <!-- Tells the browser we are using html 5-->
+<html> <!-- Start the html document-->
 
-<head>
-    <title>Game Loop</title>
+<head> <!-- Provide the header (meta) Information-->
+    <title>Game Loop</title> <!-- The title of the html page, as shown in the tab by the browser-->
+
+    <!-- Cascading Style Sheets that define how to render elements in our page-->
     <style>
+        /* Remove the margins and make sure we never show the scrollbars */
         *{
             margin:0;
             overflow: hidden;
@@ -10,32 +14,59 @@
     </style>
 </head>
 
-<body>
-    <canvas id="canv">
+<body> <!-- The main content in our browser window-->
+    <canvas id="canv"> <!-- The canvas where we will draw our game -->
 
     </canvas>
+
+    <!-- Include external js files, similar to Python import statements-->
     <script src="Vector2.js"></script>
+
+    <!-- Our custom code for our game. In the future, all this code will be in individual js files-->
     <script>
+
+        //Grab the canvas element and put it into an element named canvas
         let canvas = document.querySelector("#canv")
+
+        //We can draw to either 3D or 2D on a canvas, so we have to tell
+        //the browser which one we are going to use.
+        //Since this class is entirely in 2D, we grab a 2D context
+        //and do all our rendering there.
         let ctx = canvas.getContext("2d")
 
-
-
+        //Put the position of our game object in a variable, 
+        //so we can update it over time
         let position = new Vector2(50, 50)
 
+        /**
+         * The game loop for our game
+         */
         function gameLoop() {
+            //Update and draw
             update()
             draw()
+
+            //...then call the game loop again the next time the browser can
             requestAnimationFrame(gameLoop)
         }
 
+        /**
+         * Update our game.
+         * Later, this code will be in our engine.
+         */
         function update() {
+            //Move the game object across the screen slowly
             position.x = position.x + .1
         }
 
+        /**
+         * Draw our game.
+         * Later, this code will be in our engine.
+         */
         function draw() {
 
-            //Expand the size of the canvas
+            //Expand the size of the canvas to match the browser window size
+            //Note that this also clears the canvas for us.
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
 
@@ -45,6 +76,7 @@
             //Set center of our object
             ctx.translate(position.x, position.y)
 
+            //Move to the corners of the polygon representing our game object
             ctx.lineTo(0, -20)
             ctx.lineTo(10, -30)
             ctx.lineTo(10, 0)
@@ -53,13 +85,16 @@
             ctx.lineTo(500, 0)
             ctx.lineTo(0, 40)
 
+            //Set the color of the fill
             ctx.fillStyle = "black"
+            //Tell the canvas to draw the object
             ctx.fill()
 
             //Signaling that I'm done drawing
             ctx.restore()
         }
 
+        //Tell the browser to call our game loop the next time the browser can.
         requestAnimationFrame(gameLoop)
 
     </script>
