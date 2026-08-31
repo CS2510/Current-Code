@@ -1,8 +1,27 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * The engine class for our games
+ * 
+ * This contains all the code that would be used by all games
+ * The API for this class is primarily based on the Unity API
+ */
 class Engine {
+    /**
+     * @type{HTMLCanvasElement} A reference to the canvas HTML element
+     */
     static canvas
 
+    /**
+     * @type{CanvasRenderingContext2D} A reference to the context we will draw to
+     * 
+     * Whenever we want to draw anything, we will use this variable
+     */
     static ctx
 
+   /**
+    * 
+    */
     static start() {
         //Grab the canvas element and put it into an element named canvas
         Engine.canvas = document.querySelector("#canv")
@@ -13,7 +32,10 @@ class Engine {
         //and do all our rendering there.
         Engine.ctx = Engine.canvas.getContext("2d")
 
+        //Tell javascript that we want to listen to keydown events
         addEventListener("keydown", Input.keydown)
+
+        //Tell javascript that we want to listen to keyup events
         addEventListener("keyup", Input.keyup)
 
         //Tell the browser to call our game loop the next time the browser can.
@@ -33,6 +55,7 @@ class Engine {
     }
 
     static update() {
+        //For now, call the game-specific update code
         update()
     }
 
@@ -41,6 +64,9 @@ class Engine {
         //Note that this also clears the canvas for us.
         Engine.canvas.width = window.innerWidth
         Engine.canvas.height = window.innerHeight
+
+        //For now, call the game-specific draw code
+        //Note that we pass in the context the game will draw to
         draw(Engine.ctx)
     }
 

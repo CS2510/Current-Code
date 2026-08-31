@@ -27,8 +27,6 @@
     <!-- Our custom code for our game. In the future, all this code will be in individual js files-->
     <script>
 
-
-
         //Put the position of our game object in a variable, 
         //so we can update it over time
         let position = new Vector2(50, 50)
@@ -36,28 +34,38 @@
 
         /**
          * Update our game.
-         * Later, this code will be in our engine.
+         * This is a temporary function that will be moved shortly.
          */
         function update() {
-            // console.log(Input.keysDown)
-            //Move the game object across the screen slowly
-
-
+            //Check to see if the right arrow key is down.
+            //If it is, move our character right
             if (Input.keysDown.includes("ArrowRight"))
                 position.x = position.x + 1
+
+            //Check to see if the left arrow key is down.
+            //If it is, move our character left
             if (Input.keysDown.includes("ArrowLeft"))
                 position.x = position.x - 1
+
+            //Check to see if the up arrow key is down.
+            //If it is, move our character up
             if (Input.keysDown.includes("ArrowUp"))
                 position.y = position.y - 1
+
+            //Check to see if the down arrow key is down.
+            //If it is, move our character down
             if (Input.keysDown.includes("ArrowDown"))
                 position.y = position.y + 1
         }
 
         /**
          * Draw our game.
-         * Later, this code will be in our engine.
+         * This is a temporary function that will be moved shortly.
          */
         function draw(ctx) {
+
+            //Since we have an engine now, the canvas should already be
+            //the right size and cleared
 
 
             //Signaling to the context that I'm going to draw something
@@ -84,9 +92,9 @@
             ctx.restore()
         }
 
+        //Start the game engine
+        //Every game we make will need to call this function.
         Engine.start()
-
-
 
     </script>
 </body>
