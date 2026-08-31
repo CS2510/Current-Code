@@ -7,8 +7,8 @@
     <!-- Cascading Style Sheets that define how to render elements in our page-->
     <style>
         /* Remove the margins and make sure we never show the scrollbars */
-        *{
-            margin:0;
+        * {
+            margin: 0;
             overflow: hidden;
         }
     </style>
@@ -20,55 +20,45 @@
     </canvas>
 
     <!-- Include external js files, similar to Python import statements-->
-    <script src="Vector2.js"></script>
+    <script src="../engine/Vector2.js"></script>
+    <script src="../engine/Input.js"></script>
+    <script src="../engine/Engine.js"></script>
 
     <!-- Our custom code for our game. In the future, all this code will be in individual js files-->
     <script>
 
-        //Grab the canvas element and put it into an element named canvas
-        let canvas = document.querySelector("#canv")
 
-        //We can draw to either 3D or 2D on a canvas, so we have to tell
-        //the browser which one we are going to use.
-        //Since this class is entirely in 2D, we grab a 2D context
-        //and do all our rendering there.
-        let ctx = canvas.getContext("2d")
 
         //Put the position of our game object in a variable, 
         //so we can update it over time
         let position = new Vector2(50, 50)
 
-        /**
-         * The game loop for our game
-         */
-        function gameLoop() {
-            //Update and draw
-            update()
-            draw()
-
-            //...then call the game loop again the next time the browser can
-            requestAnimationFrame(gameLoop)
-        }
 
         /**
          * Update our game.
          * Later, this code will be in our engine.
          */
         function update() {
+            // console.log(Input.keysDown)
             //Move the game object across the screen slowly
-            position.x = position.x + .1
+
+
+            if (Input.keysDown.includes("ArrowRight"))
+                position.x = position.x + 1
+            if (Input.keysDown.includes("ArrowLeft"))
+                position.x = position.x - 1
+            if (Input.keysDown.includes("ArrowUp"))
+                position.y = position.y - 1
+            if (Input.keysDown.includes("ArrowDown"))
+                position.y = position.y + 1
         }
 
         /**
          * Draw our game.
          * Later, this code will be in our engine.
          */
-        function draw() {
+        function draw(ctx) {
 
-            //Expand the size of the canvas to match the browser window size
-            //Note that this also clears the canvas for us.
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
 
             //Signaling to the context that I'm going to draw something
             ctx.save()
@@ -94,8 +84,9 @@
             ctx.restore()
         }
 
-        //Tell the browser to call our game loop the next time the browser can.
-        requestAnimationFrame(gameLoop)
+        Engine.start()
+
+
 
     </script>
 </body>
