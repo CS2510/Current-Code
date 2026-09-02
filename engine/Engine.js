@@ -19,6 +19,8 @@ class Engine {
      */
     static ctx
 
+    static currentScene
+
    /**
     * 
     */
@@ -38,6 +40,8 @@ class Engine {
         //Tell javascript that we want to listen to keyup events
         addEventListener("keyup", Input.keyup)
 
+        Engine.currentScene.start()
+
         //Tell the browser to call our game loop the next time the browser can.
         requestAnimationFrame(Engine.gameLoop)
     }
@@ -56,7 +60,8 @@ class Engine {
 
     static update() {
         //For now, call the game-specific update code
-        update()
+        //update()
+        Engine.currentScene.update()
     }
 
     static draw() {
@@ -67,7 +72,8 @@ class Engine {
 
         //For now, call the game-specific draw code
         //Note that we pass in the context the game will draw to
-        draw(Engine.ctx)
+        //draw(Engine.ctx)
+        Engine.currentScene.draw(Engine.ctx)
     }
 
     
