@@ -14,12 +14,12 @@ class DrawComponent extends Component {
 
         //Move to the corners of the polygon representing our game object
         ctx.lineTo(0, -20)
-        ctx.lineTo(10, -30)
-        ctx.lineTo(10, 0)
-        ctx.lineTo(50, -40)
-        ctx.lineTo(60, -50)
-        ctx.lineTo(500, 0)
-        ctx.lineTo(0, 40)
+        ctx.lineTo(10, 10)
+        ctx.lineTo(-10, 10)
+        // ctx.lineTo(50, -40)
+        // ctx.lineTo(60, -50)
+        // ctx.lineTo(500, 0)
+        // ctx.lineTo(0, 40)
 
         //Set the color of the fill
         ctx.fillStyle = "black"
