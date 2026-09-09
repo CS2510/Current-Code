@@ -1,4 +1,8 @@
-class DrawComponent extends Component {
+class Polygon extends Component {
+    
+    fillStyle = "magenta"
+    points = []
+
     draw(ctx) {
         let position = this.transform.position
 
@@ -14,16 +18,12 @@ class DrawComponent extends Component {
 
         //Move to the corners of the polygon representing our game object
         ctx.beginPath()
-        ctx.lineTo(0, -20)
-        ctx.lineTo(10, 10)
-        ctx.lineTo(-10, 10)
-        // ctx.lineTo(50, -40)
-        // ctx.lineTo(60, -50)
-        // ctx.lineTo(500, 0)
-        // ctx.lineTo(0, 40)
+        for(const point of this.points){
+            ctx.lineTo(point.x, point.y)
+        }
 
         //Set the color of the fill
-        ctx.fillStyle = "black"
+        ctx.fillStyle = this.fillStyle
         //Tell the canvas to draw the object
         ctx.fill()
 

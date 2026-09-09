@@ -1,4 +1,4 @@
-class DrawComponent extends Component {
+class LaserPolygon  extends Component {
     draw(ctx) {
         let position = this.transform.position
 
@@ -14,16 +14,13 @@ class DrawComponent extends Component {
 
         //Move to the corners of the polygon representing our game object
         ctx.beginPath()
-        ctx.lineTo(0, -20)
-        ctx.lineTo(10, 10)
-        ctx.lineTo(-10, 10)
-        // ctx.lineTo(50, -40)
-        // ctx.lineTo(60, -50)
-        // ctx.lineTo(500, 0)
-        // ctx.lineTo(0, 40)
+        ctx.lineTo(0, -10)
+        ctx.lineTo(5, 5)
+        ctx.lineTo(-5, 5)
+        
 
         //Set the color of the fill
-        ctx.fillStyle = "black"
+        ctx.fillStyle = "green"
         //Tell the canvas to draw the object
         ctx.fill()
 
