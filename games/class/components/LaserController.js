@@ -7,6 +7,7 @@ class LaserController extends Component {
         }
 
         //Collision Check
+       
         let myPosition = this.transform.position
         let enemyGameObject = GameObject.find("Enemy")
         if (enemyGameObject) {

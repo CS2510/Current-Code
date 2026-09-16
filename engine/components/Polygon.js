@@ -1,11 +1,16 @@
 class Polygon extends Component {
     
+    /** @type{String} */
     fillStyle = "magenta"
+
+    /** @type{Vector2[]} */
     points = []
 
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} ctx The drawing context
+     */
     draw(ctx) {
-        let position = this.transform.position
-
         //Since we have an engine now, the canvas should already be
         //the right size and cleared
 
@@ -14,7 +19,7 @@ class Polygon extends Component {
         ctx.save()
 
         //Set center of our object
-        ctx.translate(position.x, position.y)
+        ctx.translate(this.transform.position.x, this.transform.position.y)
         ctx.scale(this.transform.scale.x, this.transform.scale.y)
         ctx.rotate(this.transform.rotation)
 

@@ -19,6 +19,9 @@ class Engine {
      */
     static ctx
 
+    /**
+     * @type{Scene}
+     */
     static currentScene
 
    /**
