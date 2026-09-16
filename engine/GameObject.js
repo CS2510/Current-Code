@@ -3,11 +3,8 @@ class GameObject{
 
     markForDestroy = false
 
-<<<<<<< HEAD
     name
 
-=======
->>>>>>> 00ee758ffd3972b456c1cc41b7babaceebb57ceb
     get transform(){
         return this.components[0];
     }
@@ -46,12 +43,9 @@ class GameObject{
     destroy(){
         this.markForDestroy = true
     }
-<<<<<<< HEAD
 
     static find(name){
         //return Engine.currentScene.gameObjects.find(function(go){return go.name == name})
         return Engine.currentScene.gameObjects.find(go=>go.name == name )
     }
-=======
->>>>>>> 00ee758ffd3972b456c1cc41b7babaceebb57ceb
 }
