@@ -11,5 +11,8 @@
     },
     "exclude": [
         "games/class", "games/home"
+    ],
+    "include":[
+        "../../engine"
     ]
 }
