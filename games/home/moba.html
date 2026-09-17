@@ -1,0 +1,65 @@
+<!doctype html> <!-- Tells the browser we are using html 5-->
+<html> <!-- Start the html document-->
+
+<head> <!-- Provide the header (meta) Information-->
+    <title>MOBA</title> <!-- The title of the html page, as shown in the tab by the browser-->
+
+    <!-- Cascading Style Sheets that define how to render elements in our page-->
+    <style>
+        /* Remove the margins and make sure we never show the scrollbars */
+        * {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body> <!-- The main content in our browser window-->
+    <canvas id="canv"> <!-- The canvas where we will draw our game -->
+
+    </canvas>
+
+    <!-- Include external js files, similar to Python import statements-->
+    <script src="../../engine/Vector2.js"></script>
+    <script src="../../engine/Input.js"></script>
+    <script src="../../engine/Engine.js"></script>
+    <script src="../../engine/Component.js"></script>
+    <script src="../../engine/GameObject.js"></script>
+    <script src="../../engine/Scene.js"></script>
+
+    <script src="../../engine/Time.js"></script>
+    
+    <script src="../../engine/components/Transform.js"></script>
+    <script src="../../engine/components/Polygon.js"></script>
+
+    <script src="./components/UpdateComponent.js"></script>
+    <script src="./components/LaserController.js"></script>
+    <script src="./components/GoodMinionController.js"></script>
+    <script src="./components/GoodTurretController.js"></script>
+    <script src="./components/BadMinionController.js"></script>
+    <script src="./components/BadTurretController.js"></script>
+
+    <script src="./gameObjects/MainGameObject.js"></script>
+    <script src="./gameObjects/LaserGameObject.js"></script>
+    <script src="./gameObjects/GoodMinionGameObject.js"></script>
+    <script src="./gameObjects/GoodTurretGameObject.js"></script>
+    <script src="./gameObjects/BadMinionGameObject.js"></script>
+    <script src="./gameObjects/BadTurretGameObject.js"></script>
+    
+    <script src="./scenes/MainScene.js"></script>
+
+    <script src="./Assets.js"></script>
+
+
+    <!-- Our custom code for our game. In the future, all this code will be in individual js files-->
+    <script>
+        
+        //Start the game engine
+        //Every game we make will need to call this function.
+        Engine.currentScene = new MainScene()
+        Engine.start()
+
+    </script>
+</body>
+
+</html>
