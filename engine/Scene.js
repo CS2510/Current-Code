@@ -1,18 +1,34 @@
+/**
+ * The scene base class
+ */
 class Scene{
+    /** @type{GameObject[]} The game objects in the scene*/
     gameObjects = []
 
+    /**
+     * Create a new game object in this scene
+     * @param {GameObject} gameObject The game object to add
+     * @param {Vector2} position The position of the game object
+     * @param {Number} rotation The rotation of the game object
+     */
     instantiate(gameObject, position = new Vector2(0,0), rotation = 0){
         this.gameObjects.push(gameObject)
         gameObject.transform.position = position
         gameObject.transform.rotation = rotation
     }
 
+    /**
+     * Start the scene
+     */
     start(){
         for(const gameObject of this.gameObjects){
             gameObject.start()
         }
     }
 
+    /**
+     * Update the scene
+     */
     update(){
         for(const gameObject of this.gameObjects){
             gameObject.update()
@@ -26,6 +42,10 @@ class Scene{
         this.gameObjects = temp
     }
 
+    /**
+     * DRaw the scene
+     * @param {CanvasRenderingContext2D} ctx The context we are drawing to
+     */
     draw(ctx){
         for(const gameObject of this.gameObjects){
             gameObject.draw(ctx)
@@ -33,6 +53,12 @@ class Scene{
     }
 }
 
+/**
+ * Instantiate a game object in the current scene
+ * @param {GameObject} gameObject The game object to create
+ * @param {Vector2} position The position of the game object
+ * @param {Number} rotation The rotation of the game object
+ */
 function instantiate(gameObject, position = new Vector2(0,0), rotation = 0){
     Engine.currentScene.instantiate(gameObject, position, rotation)
 }

@@ -47,6 +47,7 @@ class GameObject{
      */
     start(){
         for(const component of this.components){
+            // @ts-expect-error
             component.start?.()
         }
 
@@ -57,6 +58,7 @@ class GameObject{
      */
     update(){
         for(const component of this.components){
+            // @ts-expect-error
             component.update?.()
         }
 
@@ -69,6 +71,7 @@ class GameObject{
      */
     draw(ctx){
         for(const component of this.components){
+            // @ts-expect-error
             component.draw?.(ctx)
         }
     }
@@ -80,8 +83,14 @@ class GameObject{
         this.markForDestroy = true
     }
 
+    /**
+     * Get a component on a game object, based on its type
+     * @template {Component} T
+     * @param {new (...args: any[]) => T} type The type of the component you are getting
+     * @returns {T|undefined} The first component of the given type, undefined otherwise
+     */
     getComponent(type){
-        return this.components.find(c=>c instanceof type)
+        return /** @type {T|undefined} */ (this.components.find(c=>c instanceof type))
     }
 
     /**

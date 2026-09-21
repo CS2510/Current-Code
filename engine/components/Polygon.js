@@ -1,9 +1,9 @@
 class Polygon extends Component {
     
-    /** @type{String} */
+    /** @type{String} The fill style (background color) of the polygon*/
     fillStyle = "magenta"
 
-    /** @type{Vector2[]} */
+    /** @type{Vector2[]} The points in the polygon*/
     points = []
 
     /**

@@ -1,5 +1,8 @@
 class TextLabel extends Component{
+    /** @type{string} The fill color of the text */
     fillStyle = "black"
+
+    /** @type{string} The string to display */
     text  = "[BLANK]"
 
     /**
