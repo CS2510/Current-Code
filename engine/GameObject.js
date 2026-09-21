@@ -80,6 +80,10 @@ class GameObject{
         this.markForDestroy = true
     }
 
+    getComponent(type){
+        return this.components.find(c=>c instanceof type)
+    }
+
     /**
      * Find a game object by name
      * @param {String} name The name of the game object to find
