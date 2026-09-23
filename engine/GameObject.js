@@ -1,3 +1,8 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * The base class for all game objects in our games
+ */
 class GameObject{
     /**
      * @type{Component[]} The list of components in the game object

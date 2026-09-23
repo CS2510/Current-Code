@@ -1,3 +1,8 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * Class for drawing polygons and storing their points
+ */
 class Polygon extends Component {
     
     /** @type{String} The fill style (background color) of the polygon*/

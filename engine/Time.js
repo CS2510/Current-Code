@@ -1,3 +1,8 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * Class used for tracking time
+ */
 class Time{
     /**
      * @type{Number} The time in seconds since the last frame

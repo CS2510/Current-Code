@@ -1,3 +1,8 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * Class for storing the position, scale, and rotation of a game object
+ */
 class Transform extends Component{
     /** @type{Vector2} The position of the transform*/
     position = new Vector2(0,0)

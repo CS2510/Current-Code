@@ -1,3 +1,8 @@
+// Please carefully review the rules about academic integrity found in the academicIntegrity.md file found at the root of this project.
+
+/**
+ * Class for drawing text on the screen
+ */
 class TextLabel extends Component{
     /** @type{string} The fill color of the text */
     fillStyle = "black"
