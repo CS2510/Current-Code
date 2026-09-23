@@ -45,7 +45,7 @@ class Scene{
     }
 
     /**
-     * DRaw the scene
+     * Draw the scene
      * @param {CanvasRenderingContext2D} ctx The context we are drawing to
      */
     draw(ctx){
