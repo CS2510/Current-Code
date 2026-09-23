@@ -19,6 +19,8 @@ class GameObject{
      */
     name
 
+    tags = []
+
     /** 
      * @returns{Transform} The transform
     */
@@ -31,9 +33,10 @@ class GameObject{
      * 
      * @param {String} name The name of the game object
      */
-    constructor(name){
+    constructor(name, tags = []){
         this.addComponent(new Transform())
         this.name = name
+        this.tags = tags
     }
 
     /**
@@ -51,9 +54,10 @@ class GameObject{
      * Start the game object
      */
     start(){
-        for(const component of this.components){
+        for(const component of this.components.filter(c=>!c.didStart)){
             // @ts-expect-error
             component.start?.()
+            component.didStart = true
         }
 
     }
@@ -104,7 +108,11 @@ class GameObject{
      * @returns The first game object with the give name in the list of game object, undefined otherwise
      */
     static find(name){
-        //return Engine.currentScene.gameObjects.find(function(go){return go.name == name})
-        return Engine.currentScene.gameObjects.find(go=>go.name == name )
+        //return SceneManger.currentScene.gameObjects.find(function(go){return go.name == name})
+        return SceneManager.currentScene.gameObjects.find(go=>go.name == name )
+    }
+
+    static findGameObjectsWithTag(tag){
+        return SceneManager.currentScene.gameObjects.filter(go=>go.tags.includes(tag) )
     }
 }

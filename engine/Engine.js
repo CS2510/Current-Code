@@ -19,15 +19,11 @@ class Engine {
      */
     static ctx
 
-    /**
-     * @type{Scene}
-     */
-    static currentScene
-
+    
    /**
     * 
     */
-    static start() {
+    static start(nextScene) {
         //Grab the canvas element and put it into an element named canvas
         Engine.canvas = document.querySelector("#canv")
 
@@ -43,7 +39,7 @@ class Engine {
         //Tell javascript that we want to listen to keyup events
         addEventListener("keyup", Input.keyup)
 
-        Engine.currentScene.start()
+        SceneManager.nextScene = nextScene
 
         //Tell the browser to call our game loop the next time the browser can.
         requestAnimationFrame(Engine.gameLoop)
@@ -53,6 +49,8 @@ class Engine {
     * The game loop for our game
     */
     static gameLoop() {
+        SceneManager.update()
+
         //Update and draw
         Engine.update()
         Engine.draw()
@@ -66,7 +64,8 @@ class Engine {
     static update() {
         //For now, call the game-specific update code
         //update()
-        Engine.currentScene.update()
+        SceneManager.currentScene.start()
+        SceneManager.currentScene.update()
     }
 
     static draw() {
@@ -78,7 +77,7 @@ class Engine {
         //For now, call the game-specific draw code
         //Note that we pass in the context the game will draw to
         //draw(Engine.ctx)
-        Engine.currentScene.draw(Engine.ctx)
+        SceneManager.currentScene.draw(Engine.ctx)
     }
 
     
