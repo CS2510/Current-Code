@@ -25,8 +25,8 @@ class Polygon extends Component {
 
         //Set center of our object
         ctx.translate(this.transform.position.x, this.transform.position.y)
-        ctx.scale(this.transform.scale.x, this.transform.scale.y)
         ctx.rotate(this.transform.rotation)
+        ctx.scale(this.transform.scale.x, this.transform.scale.y)
 
         //Move to the corners of the polygon representing our game object
         ctx.beginPath()
