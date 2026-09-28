@@ -10,6 +10,8 @@ class TextLabel extends Component{
     /** @type{string} The string to display */
     text  = "[BLANK]"
 
+    font = "10px Arial"
+
     /**
      * 
      * @param {CanvasRenderingContext2D} ctx The drawing context
@@ -31,6 +33,8 @@ class TextLabel extends Component{
 
         //Set the color of the fill
         ctx.fillStyle = this.fillStyle
+
+        ctx.font = this.font
         //Tell the canvas to draw the object
         ctx.fillText(this.text, 0, 0)
 
