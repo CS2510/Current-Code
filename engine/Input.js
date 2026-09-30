@@ -4,6 +4,10 @@
  * Input class for our game engine.
  * 
  * Games can query this class to see the state of the mouse and keyboard
+ * 
+ * Compare to the Unity Input: https://docs.unity3d.com/6000.5/Documentation/ScriptReference/Input.html
+ * Compare to the Unreal UInputComponent: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/Components/UInputComponent/?application_version=5.5
+ * Compare to the Godot Input: https://docs.godotengine.org/en/4.4/classes/class_input.html
  */
 
 class Input{

@@ -2,6 +2,10 @@
 
 /**
  * Class for drawing text on the screen
+ * 
+ * Compare to the Unity UI.Text: https://docs.unity3d.com/6000.5/Documentation/ScriptReference/UI.Text.html
+ * Compare to the Unreal UTextRenderComponent: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/Components/UTextRenderComponent/?application_version=5.5
+ * Compare to the Godot Label: https://docs.godotengine.org/en/4.4/classes/class_label.html
  */
 class TextLabel extends Component{
     /** @type{string} The fill color of the text */

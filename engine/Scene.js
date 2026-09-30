@@ -2,6 +2,10 @@
 
 /**
  * The scene base class
+ * 
+ * Compare to the Unity Scene: https://docs.unity3d.com/6000.5/Documentation/ScriptReference/SceneManagement.Scene.html
+ * Compare to the Unreal ULevel: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/Engine/ULevel/?application_version=5.5
+ * Compare to the Godot Node: https://docs.godotengine.org/en/4.4/classes/class_node.html
  */
 class Scene{
     /** @type{GameObject[]} The game objects in the scene*/

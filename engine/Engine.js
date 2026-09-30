@@ -5,6 +5,10 @@
  * 
  * This contains all the code that would be used by all games
  * The API for this class is primarily based on the Unity API
+ * 
+ * Compare to the Unreal UEngine: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/Engine/UEngine/?application_version=5.5
+ * Compare to the Godot Engine: https://docs.godotengine.org/en/4.4/classes/class_engine.html
+ * Compare to the Godot MainLoop: https://docs.godotengine.org/en/4.4/classes/class_mainloop.html
  */
 class Engine {
     /**

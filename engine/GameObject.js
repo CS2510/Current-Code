@@ -2,6 +2,10 @@
 
 /**
  * The base class for all game objects in our games
+ * 
+ * Compare to the Unity GameObject: https://docs.unity3d.com/6000.5/Documentation/ScriptReference/GameObject.html
+ * Compare to the Unreal AActor: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/GameFramework/AActor/?application_version=5.5
+ * Compare to the Godot Node2D: https://docs.godotengine.org/en/4.4/classes/class_node2d.html
  */
 class GameObject{
     /**

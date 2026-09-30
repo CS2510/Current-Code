@@ -2,6 +2,10 @@
 
 /**
  * Class for drawing polygons and storing their points
+ * 
+ * Compare to the Unity PolygonCollider2D: https://docs.unity3d.com/6000.5/Documentation/ScriptReference/PolygonCollider2D.html
+ * Compare to the Unreal UProceduralMeshComponent: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/ProceduralMeshComponent/UProceduralMeshComponent/?application_version=5.5
+ * Compare to the Godot Polygon2D: https://docs.godotengine.org/en/4.4/classes/class_polygon2d.html
  */
 class Polygon extends Component {
     
