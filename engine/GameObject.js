@@ -25,6 +25,8 @@ class GameObject{
 
     tags = []
 
+    layer = "default"
+
     /** 
      * @returns{Transform} The transform
     */
@@ -37,10 +39,11 @@ class GameObject{
      * 
      * @param {String} name The name of the game object
      */
-    constructor(name, tags = []){
+    constructor(name, tags = [], layer = 'default'){
         this.addComponent(new Transform())
         this.name = name
         this.tags = tags
+        this.layer = layer
     }
 
     /**
@@ -52,6 +55,12 @@ class GameObject{
         Object.assign(component, parameters)
         this.components.push(component)
         component.gameObject = this
+    }
+
+    broadcastMessage(message, args = []){
+        for(const component of this.components){
+            component[message]?.(...args)
+        }
     }
 
     /**
@@ -118,5 +127,9 @@ class GameObject{
 
     static findGameObjectsWithTag(tag){
         return SceneManager.currentScene.gameObjects.filter(go=>go.tags.includes(tag) )
+    }
+
+    static findGameObjectsByType(type){
+        return SceneManager.currentScene.gameObjects.filter(go=>go.components.find(c=>c instanceof type))
     }
 }

@@ -30,5 +30,7 @@ class UpdateComponent extends Component {
             this.timeSinceLastLaser = 0
             instantiate(new LaserGameObject(), this.transform.position.clone())
         }
+
+        Camera.main.transform.position = this.transform.position.clone()
     }
 }
