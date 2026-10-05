@@ -1,0 +1,257 @@
+<!doctype html> <!-- Tells the browser we are using html 5-->
+<html> <!-- Start the html document-->
+
+<head> <!-- Provide the header (meta) Information-->
+    <title>Shadows</title> <!-- The title of the html page, as shown in the tab by the browser-->
+
+    <!-- Cascading Style Sheets that define how to render elements in our page-->
+    <style>
+        /* Remove the margins and make sure we never show the scrollbars */
+        * {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body> <!-- The main content in our browser window-->
+    <canvas id="canv"> <!-- The canvas where we will draw our game -->
+
+    </canvas>
+
+    <!-- Include external js files, similar to Python import statements-->
+    <script src="../../engine/Vector2.js"></script>
+    <script src="../../engine/Input.js"></script>
+    <script src="../../engine/Engine.js"></script>
+    <script src="../../engine/Component.js"></script>
+    <script src="../../engine/GameObject.js"></script>
+    <script src="../../engine/Scene.js"></script>
+    <script src="../../engine/SceneManager.js"></script>
+
+    <script src="../../engine/Time.js"></script>
+
+    <script src="../../engine/components/Transform.js"></script>
+    <script src="../../engine/components/Polygon.js"></script>
+    <script src="../../engine/components/Camera.js"></script>
+
+
+
+    <!-- Our custom code for our game. In the future, all this code will be in individual js files-->
+    <script>
+
+        //Start the game engine
+        //Every game we make will need to call this function.
+
+        const offset = 300
+        const scale = 50
+
+        class Globals {
+            static rotation = 0
+        }
+
+
+        class SunController extends Component {
+            start() {
+
+            }
+            update() {
+                if (Input.keysDown.includes("ArrowRight")) {
+                    Globals.rotation += Time.deltaTime
+                }
+                if (Input.keysDown.includes("ArrowLeft")) {
+                    Globals.rotation -= Time.deltaTime
+                }
+
+                this.transform.position = new Vector2(Math.cos(Globals.rotation) * offset, Math.sin(Globals.rotation) * offset)
+                this.transform.rotation = Globals.rotation
+
+            }
+        }
+
+        class WallController extends Component {
+            start() {
+
+            }
+            update() {
+                this.transform.position = new Vector2(Math.cos(Globals.rotation + Math.PI) * offset, Math.sin(Globals.rotation + Math.PI) * offset)
+                this.transform.rotation = Globals.rotation
+
+            }
+        }
+
+        class ShadowController extends Component {
+            originalPoints = []
+
+            drawPoints = []
+
+
+            lines = []
+
+            target = ""
+
+            color = "black"
+
+
+            start() {
+                // this.originalPoints = GameObject.find(this.target).getComponent(Polygon).points
+                const targetGameObject = GameObject.find(this.target)
+                for(let i = 0; i < targetGameObject.getComponent(Polygon).points.length; i++){
+                    const point = targetGameObject.getComponent(Polygon).points[i]
+                    this.originalPoints.push(new Vector2(point.x * scale + targetGameObject.transform.position.x, point.y * scale + targetGameObject.transform.position.y, ))
+                }
+
+            }
+            update() {
+
+
+                const dotVector = new Vector2(Math.cos(Globals.rotation + Math.PI / 2), Math.sin(Globals.rotation + Math.PI / 2))
+
+
+                this.drawPoints = []
+                this.lines = []
+                for (let i = 0; i < this.originalPoints.length; i++) {
+                    let dot = this.originalPoints[i].x * dotVector.x + this.originalPoints[i].y * dotVector.y
+                    const shadowPoint = new Vector2(dotVector.x * dot  + Math.cos(Globals.rotation + Math.PI) * offset, dotVector.y * dot + Math.sin(Globals.rotation + Math.PI) * offset)
+                    this.drawPoints.push(shadowPoint)
+                    this.lines.push([shadowPoint, new Vector2(this.originalPoints[i].x, this.originalPoints[i].y)])
+                }
+
+
+
+            }
+
+            draw(ctx) {
+                ctx.save()
+
+                //Set center of our object
+                ctx.translate(this.transform.position.x, this.transform.position.y)
+                ctx.rotate(this.transform.rotation)
+                ctx.scale(this.transform.scale.x, this.transform.scale.y)
+
+                //Move to the corners of the polygon representing our game object
+                ctx.beginPath()
+                for (const point of this.drawPoints) {
+                    ctx.lineTo(point.x, point.y)
+                }
+
+                //Set the color of the fill
+                ctx.strokeStyle = this.color
+                ctx.lineWidth = 1
+                //Tell the canvas to draw the object
+                ctx.fill()
+                ctx.stroke()
+
+                //Now draw some lines
+                ctx.strokeStyle = this.color
+                ctx.setLineDash([10,10])
+                for (const line of this.lines) {
+                    ctx.beginPath()
+                    ctx.lineTo(line[0].x, line[0].y)
+                    ctx.lineTo(line[1].x, line[1].y)
+                    ctx.stroke()
+                }
+
+
+
+
+                //Signaling that I'm done drawing
+                ctx.restore()
+            }
+        }
+
+
+        class TriangleGameObject extends GameObject {
+            constructor() {
+                super("TriangleGameObject")
+                this.addComponent(new Polygon(), {
+                    fillStyle: "blue", points: [
+                        new Vector2(1, 0),
+                        new Vector2(-1, 1),
+                        new Vector2(-1, -1),]
+                })
+                this.transform.scale = new Vector2(scale, scale)
+            }
+        }
+
+        class Triangle2GameObject extends GameObject {
+            constructor() {
+                super("Triangle2GameObject")
+                this.addComponent(new Polygon(), {
+                    fillStyle: "blue", points: [
+                        new Vector2(1, 0),
+                        new Vector2(-1, 1),
+                        new Vector2(-1, -1),]
+                })
+                this.transform.scale = new Vector2(scale, scale)
+            }
+        }
+
+        class WallGameObject extends GameObject {
+            constructor() {
+                super("WallGameObject")
+                this.addComponent(new Polygon(), {
+                    fillStyle: "red", points: [
+                        new Vector2(1, 1),
+                        new Vector2(-1, 1),
+                        new Vector2(-1, -1),
+                        new Vector2(1, -1),
+                    ]
+                })
+                this.addComponent(new WallController())
+                this.transform.scale = new Vector2(10, 200)
+            }
+        }
+
+
+        class SunGameObject extends GameObject {
+            constructor() {
+                super("SunGameObject")
+                this.addComponent(new Polygon(), {
+                    fillStyle: "orange", points: [
+                        new Vector2(Math.cos(0 / 8 * 2 * Math.PI), Math.sin(0 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(1 / 8 * 2 * Math.PI), Math.sin(1 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(2 / 8 * 2 * Math.PI), Math.sin(2 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(3 / 8 * 2 * Math.PI), Math.sin(3 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(4 / 8 * 2 * Math.PI), Math.sin(4 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(5 / 8 * 2 * Math.PI), Math.sin(5 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(6 / 8 * 2 * Math.PI), Math.sin(6 / 8 * 2 * Math.PI)),
+                        new Vector2(Math.cos(7 / 8 * 2 * Math.PI), Math.sin(7 / 8 * 2 * Math.PI)),
+                    ]
+                })
+                this.addComponent(new SunController())
+                this.transform.scale = new Vector2(50, 50)
+            }
+        }
+
+        class ShadowGameObject extends GameObject {
+            constructor() {
+                super("ShadowGameObject")
+                this.addComponent(new ShadowController(), {target: "TriangleGameObject"})
+                this.addComponent(new ShadowController(), {target: "Triangle2GameObject", color: "green"})
+                // this.transform.scale = new Vector2(50, 50)
+            }
+        }
+
+
+        class MainScene extends Scene {
+            constructor() {
+                super()
+
+                this.instantiate(new SunGameObject, new Vector2(offset, 0))
+                this.instantiate(new TriangleGameObject, new Vector2(0, 0))
+                this.instantiate(new Triangle2GameObject, new Vector2(0, 75))
+                this.instantiate(new WallGameObject, new Vector2(-offset, 0))
+                this.instantiate(new ShadowGameObject)
+
+            }
+        }
+
+
+
+
+        Engine.start(MainScene)
+
+    </script>
+</body>
+
+</html>
