@@ -45,6 +45,10 @@ class Engine {
         //Tell javascript that we want to listen to keyup events
         addEventListener("keyup", Input.keyup)
 
+        addEventListener("mousedown", Input.mousedown)
+
+        addEventListener("mouseup", Input.mouseup)
+
         SceneManager.nextScene = nextScene
 
         if(settings){
@@ -66,6 +70,7 @@ class Engine {
         Engine.draw()
 
         Time.update()
+        Input.update()
 
         //...then call the game loop again the next time the browser can
         requestAnimationFrame(Engine.gameLoop)

@@ -92,10 +92,14 @@ class GameObject{
      * @param {CanvasRenderingContext2D} ctx The context to draw to
      */
     draw(ctx){
+
+        ctx.save()
+        ctx.setTransform(ctx.getTransform().multiply(this.transform.getWorldMatrix()))
         for(const component of this.components){
             // @ts-expect-error
             component.draw?.(ctx)
         }
+        ctx.restore()
     }
 
     /**

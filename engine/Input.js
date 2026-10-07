@@ -10,28 +10,56 @@
  * Compare to the Godot Input: https://docs.godotengine.org/en/4.4/classes/class_input.html
  */
 
-class Input{
+class Input {
     /**
      * @type{string[]} A list of the keys that are currently pressed
      */
     static keysDown = []
 
+    static keysDownThisFrame = []
+    static keysUpThisFrame = []
+
+
+    static mouseButtonsDown = []
+    static mouseButtonsDownThisFrame = []
+    static mouseButtonsUpThisFrame = []
+
+
+    static mousedown(event) {
+        if (!Input.mouseButtonsDown.includes(event.button)) {
+            Input.mouseButtonsDown.push(event.button)
+            Input.mouseButtonsDownThisFrame.push(event.button)
+        }
+    }
+
+    static mouseup(event) {
+        let index = Input.mouseButtonsDown.indexOf(event.button)
+
+        //Remove the key from the array using the split command
+        Input.mouseButtonsDown.splice(index, 1)
+
+        Input.mouseButtonsUpThisFrame.push(event.button)
+    }
+
+
     /**
      * 
      * @param {KeyboardEvent} event Event details for the keydown event
      */
-    static keydown(event){
+    static keydown(event) {
         //Don't add the key to our list of keys if it is already there
         //Note that we grab event.code
-        if(!Input.keysDown.includes(event.code))
+        if (!Input.keysDown.includes(event.code)) {
             Input.keysDown.push(event.code)
+            Input.keysDownThisFrame.push(event.code)
+        }
     }
 
     /**
      * 
      * @param {KeyboardEvent} event Event details for the keyup event
      */
-    static keyup(event){
+    static keyup(event) {
         //Remove a key code from the list of codes
         //In JS, you have to find the index and then remove it from the array
 
@@ -39,7 +67,16 @@ class Input{
         let index = Input.keysDown.indexOf(event.code)
 
         //Remove the key from the array using the split command
-        Input.keysDown.splice(index,1)
+        Input.keysDown.splice(index, 1)
 
+        Input.keysUpThisFrame.push(event.code)
+
+    }
+
+    static update() {
+        Input.keysDownThisFrame = []
+        Input.keysUpThisFrame = []
+        Input.mouseButtonsDownThisFrame = []
+        Input.mouseButtonsUpThisFrame = []
     }
 }

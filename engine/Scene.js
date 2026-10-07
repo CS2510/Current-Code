@@ -11,10 +11,13 @@ class Scene {
     /** @type{GameObject[]} The game objects in the scene*/
     gameObjects = []
 
-    constructor() {
+    constructor(backgroundColor) {
         let cameraGameObject = new GameObject("MainCamera", ["MainCamera"])
         cameraGameObject.addComponent(new Camera())
         this.instantiate(cameraGameObject)
+        if(backgroundColor){
+            cameraGameObject.getComponent(Camera).backgroundColor = backgroundColor
+        }
     }
 
     /**
