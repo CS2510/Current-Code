@@ -27,6 +27,7 @@
     <script src="../../engine/GameObject.js"></script>
     <script src="../../engine/Scene.js"></script>
     <script src="../../engine/SceneManager.js"></script>
+    <script src="../../engine/Collisions.js"></script>
 
     <script src="../../engine/Time.js"></script>
     
@@ -70,6 +71,23 @@
         //Start the game engine
         //Every game we make will need to call this function.
         Engine.start(Level01, Settings)
+
+        //Tests
+        let gameObject = new GameObject()
+        gameObject.addComponent(new Polygon(), {points: [
+            new Vector2(0, -1),
+            new Vector2(-1, 1),
+            new Vector2(1, 1)
+        ]})
+
+        console.assert(Collisions.isCollisionPointPolygon(new Vector2(0,0), gameObject))
+        console.assert(Collisions.isCollisionPointPolygon(new Vector2(0,0.99999), gameObject))
+
+
+        console.assert(!Collisions.isCollisionPointPolygon(new Vector2(10000,10000), gameObject))
+        console.assert(!Collisions.isCollisionPointPolygon(new Vector2(0,1.1), gameObject))
+        console.assert(!Collisions.isCollisionPointPolygon(new Vector2(0,-1.1), gameObject))
+        console.assert(!Collisions.isCollisionPointPolygon(new Vector2(0,-1.00001), gameObject))
 
     </script>
 </body>

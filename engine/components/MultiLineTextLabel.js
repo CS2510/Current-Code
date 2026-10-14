@@ -16,6 +16,8 @@ class MultiLineTextLabel extends Component{
 
     font = "10px Arial"
 
+    maxWidth = 200
+
     /**
      * 
      * @param {CanvasRenderingContext2D} ctx The drawing context
@@ -42,10 +44,27 @@ class MultiLineTextLabel extends Component{
         //Tell the canvas to draw the object
 
 
-        let measurement = ctx.measureText(this.text)
-        //measurement.
+        // let measurement = ctx.measureText(this.text)
+        let fontHeight = ctx.measureText("").fontBoundingBoxAscent + ctx.measureText("").fontBoundingBoxDescent
+        let y = 0
+        let safeLine = ""
+        let possibleLine = ""
+        for(let word of this.text.split(" "))
+        {
+            possibleLine = safeLine +  word + " "
+            if(ctx.measureText(possibleLine).width > this.maxWidth){
+                ctx.fillText(safeLine, 0, y)
+                y += fontHeight
+                safeLine = word + " "
+            }
+            else{
+                safeLine = possibleLine
+            }
+        }
+        ctx.fillText(safeLine, 0, y)
 
-        ctx.fillText(this.text, 0, 0)
+
+        //ctx.fillText(this.text, 0, 0)
 
         //Signaling that I'm done drawing
         ctx.restore()
