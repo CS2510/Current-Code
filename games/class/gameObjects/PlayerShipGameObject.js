@@ -1,4 +1,4 @@
-class PlayerGameObject extends GameObject{
+class PlayerShipGameObject extends GameObject{
     constructor(){
         super("Main", [], "ships")
         this.addComponent(new UpdateComponent())
