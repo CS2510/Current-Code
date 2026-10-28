@@ -25,6 +25,7 @@ class UpdateComponent extends Component {
             this.transform.position.y = this.transform.position.y + Time.deltaTime * this.speed
 
         Camera.main.transform.position = this.transform.position.clone()
+        Camera.main.transform.scale = new Vector2(.5, .5)
         
 
 
