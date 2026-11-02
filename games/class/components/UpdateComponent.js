@@ -5,6 +5,10 @@ class UpdateComponent extends Component {
         this.timeSinceLastLaser = 0
     }
     update() {
+
+        if(Input.keysDown.includes("q"))
+            this.gameObject.destroy()
+
         this.timeSinceLastLaser += 1
         //Check to see if the right arrow key is down.
         //If it is, move our character right

@@ -16,6 +16,12 @@ class TextLabel extends Component{
 
     font = "10px Arial"
 
+    textAlign = "left" //Horizontal alignment. "center" and "right"
+
+    textBaseline = "alphabetic"  //Vertical alignment
+
+
+
     /**
      * 
      * @param {CanvasRenderingContext2D} ctx The drawing context
@@ -39,6 +45,8 @@ class TextLabel extends Component{
         ctx.fillStyle = this.fillStyle
 
         ctx.font = this.font
+        ctx.textAlign = this.textAlign
+        ctx.textBaseline = this.textBaseline
         //Tell the canvas to draw the object
         ctx.fillText(this.text, 0, 0)
 
