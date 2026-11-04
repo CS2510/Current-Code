@@ -15,7 +15,7 @@ class Scene {
         let cameraGameObject = new GameObject("MainCamera", ["MainCamera"])
         cameraGameObject.addComponent(new Camera())
         this.instantiate(cameraGameObject)
-        if(backgroundColor){
+        if (backgroundColor) {
             cameraGameObject.getComponent(Camera).backgroundColor = backgroundColor
         }
     }
@@ -47,51 +47,65 @@ class Scene {
      */
     update() {
 
+        for (const gameObject of this.gameObjects) {
+            gameObject.broadcastMessage("fixedUpdate")
+        }
+
 
         //Collision
         const collidable = GameObject.findGameObjectsByType(Collider)
 
 
         //Handle mouse collisions
-        if(Input.mousePosition){
+        if (Input.mousePosition) {
             let matrix = new DOMMatrix()
-            matrix.translateSelf(Engine.canvas.width/2, Engine.canvas.height/2)
+            matrix.translateSelf(Engine.canvas.width / 2, Engine.canvas.height / 2)
             matrix.multiplySelf(Camera.main.transform.getWorldMatrix().inverse())
 
             let worldPositionDOMPoint = matrix.inverse().transformPoint(Input.mousePosition)
             let worldPosition = new Vector2(worldPositionDOMPoint.x, worldPositionDOMPoint.y)
             // console.log(worldPosition)
-            for(const gameObject of collidable){
-                if(Collisions.isCollisionPointPolygon(collidable.layer == "UI" ? Input.mousePosition : worldPosition, gameObject)){
+            for (const gameObject of collidable) {
+                if (Collisions.isCollisionPointPolygon(collidable.layer == "UI" ? Input.mousePosition : worldPosition, gameObject)) {
                     gameObject.broadcastMessage("onMouseOver", [])
                 }
             }
-           
+
 
         }
 
         //Handle polygon collisions
         const physicalCollisions = []
-        for(let i = 0; i < collidable.length; i++){
-            for(let j = i + 1; j < collidable.length; j++){
-                const minimumTransformVector = Collisions.isCollisionPolygonPolygon(collidable[i], collidable[j])
-                if(minimumTransformVector){
-                    collidable[i].broadcastMessage("onCollisionStay", [collidable[j], minimumTransformVector])
-                    collidable[j].broadcastMessage("onCollisionStay", [collidable[i], minimumTransformVector.scaled(-1)])
+        for (let i = 0; i < collidable.length; i++) {
+            for (let j = i + 1; j < collidable.length; j++) {
+                const one = collidable[i]
+                const two = collidable[j]
+                if (!one.getComponent(RigidBody) && !two.getComponent(RigidBody))
+                    continue
 
-                    if(collidable[i].getComponent(RigidBody) || collidable[j].getComponent(RigidBody)){
-                        physicalCollisions.push({one:collidable[i], two:collidable[j], minimumTransformVector})
+                const minimumTransformVector = Collisions.isCollisionPolygonPolygon(collidable[i], collidable[j])
+                if (minimumTransformVector) {
+
+
+                    if (!one.getComponent(Collider).isTrigger && !two.getComponent(Collider).isTrigger) {
+                        collidable[i].broadcastMessage("onCollisionStay", [collidable[j], minimumTransformVector])
+                        collidable[j].broadcastMessage("onCollisionStay", [collidable[i], minimumTransformVector.scaled(-1)])
+                        physicalCollisions.push({ one: collidable[i], two: collidable[j], minimumTransformVector })
+                    }
+                    else {
+                        collidable[i].broadcastMessage("onTriggerStay", [collidable[j], minimumTransformVector])
+                        collidable[j].broadcastMessage("onTriggerStay", [collidable[i], minimumTransformVector.scaled(-1)])
                     }
                 }
             }
         }
 
         //Handle physics
-        for(const physicalCollision of physicalCollisions){
-            if(physicalCollision.one.getComponent(RigidBody)){
+        for (const physicalCollision of physicalCollisions) {
+            if (physicalCollision.one.getComponent(RigidBody)) {
                 physicalCollision.one.transform.position.plusEquals(physicalCollision.minimumTransformVector)
             }
-            if(physicalCollision.two.getComponent(RigidBody)){
+            if (physicalCollision.two.getComponent(RigidBody)) {
                 physicalCollision.two.transform.position.plusEquals(physicalCollision.minimumTransformVector.scaled(-1))
             }
 
@@ -125,7 +139,7 @@ class Scene {
         //ctx.translate(-Camera.main.transform.position.x, -Camera.main.transform.position.y)
         ctx.setTransform(ctx.getTransform().multiply(Camera.main.transform.getWorldMatrix().inverse()))
 
-        for (const layer of Engine.layers.filter(l=>l!="UI")) {
+        for (const layer of Engine.layers.filter(l => l != "UI")) {
             for (const gameObject of this.gameObjects.filter(go => go.layer == layer)) {
                 gameObject.draw(ctx)
             }
