@@ -51,6 +51,8 @@ class Engine {
 
         addEventListener("mousemove", Input.mousemove)
 
+        addEventListener("contextmenu", e=>e.preventDefault())
+
         SceneManager.nextScene = nextScene
 
         if(settings){
