@@ -25,6 +25,14 @@ class Engine {
 
     static layers = ["default", "UI"]
 
+    static aspectRatio
+
+    static cameraWidthInWorldSpace
+
+    static letterBoxingWidth = 0
+    static letterBoxingHeight = 0
+
+
     
    /**
     * 
@@ -57,6 +65,8 @@ class Engine {
 
         if(settings){
             Engine.layers = settings.layers
+            Engine.aspectRatio = settings.aspectRatio
+            Engine.cameraWidthInWorldSpace = settings.cameraWidthInWorldSpace
         }
 
         //Tell the browser to call our game loop the next time the browser can.
