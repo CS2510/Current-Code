@@ -7,7 +7,7 @@
  * Compare to the Unreal AActor: https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Runtime/Engine/GameFramework/AActor/?application_version=5.5
  * Compare to the Godot Node2D: https://docs.godotengine.org/en/4.4/classes/class_node2d.html
  */
-class GameObject{
+class GameObject {
     /**
      * @type{Component[]} The list of components in the game object
      */
@@ -30,7 +30,7 @@ class GameObject{
     /** 
      * @returns{Transform} The transform
     */
-    get transform(){
+    get transform() {
         return /** @type {Transform} */ (this.components[0]);
     }
 
@@ -39,7 +39,7 @@ class GameObject{
      * 
      * @param {String} name The name of the game object
      */
-    constructor(name, tags = [], layer = 'default'){
+    constructor(name, tags = [], layer = 'default') {
         this.addComponent(new Transform())
         this.name = name
         this.tags = tags
@@ -51,14 +51,14 @@ class GameObject{
      * @param {Component} component The component to add
      * @param {Object} parameters An object with the parameters to set on the component
      */
-    addComponent(component, parameters){
+    addComponent(component, parameters) {
         Object.assign(component, parameters)
         this.components.push(component)
         component.gameObject = this
     }
 
-    broadcastMessage(message, args = []){
-        for(const component of this.components){
+    broadcastMessage(message, args = []) {
+        for (const component of this.components) {
             component[message]?.(...args)
         }
     }
@@ -66,8 +66,8 @@ class GameObject{
     /**
      * Start the game object
      */
-    start(){
-        for(const component of this.components.filter(c=>!c.didStart)){
+    start() {
+        for (const component of this.components.filter(c => !c.didStart)) {
             // @ts-expect-error
             component.start?.()
             component.didStart = true
@@ -78,8 +78,8 @@ class GameObject{
     /**
      * Update the game object
      */
-    update(){
-        for(const component of this.components){
+    update() {
+        for (const component of this.components) {
             // @ts-expect-error
             component.update?.()
         }
@@ -91,11 +91,43 @@ class GameObject{
      * 
      * @param {CanvasRenderingContext2D} ctx The context to draw to
      */
-    draw(ctx){
+    draw(ctx) {
 
         ctx.save()
+        if (this.transform instanceof RectTransform) {
+            if (!this.transform.useLetterBoxing) {
+                const width = Engine.canvas.width
+                const height = Engine.canvas.height
+
+                const upperLeft = new Vector2(
+                    width * this.transform.anchorMin.x + this.transform.offsetUpperLeft.x,
+                    height * this.transform.anchorMin.y + this.transform.offsetUpperLeft.y)
+                const lowerRight = new Vector2(
+                    width * this.transform.anchorMax.x + this.transform.offsetLowerRight.x,
+                    height * this.transform.anchorMax.y + this.transform.offsetLowerRight.y)
+
+                this.transform.position = new Vector2((upperLeft.x + lowerRight.x) / 2, (upperLeft.y + lowerRight.y) / 2)
+                this.transform.scale = new Vector2((lowerRight.x - upperLeft.x) / 2, (lowerRight.y - upperLeft.y) / 2)
+            }
+           else{
+                const width = Engine.canvas.width - Engine.letterBoxingWidth
+                const height = Engine.canvas.height - Engine.letterBoxingHeight
+
+                const upperLeft = new Vector2(
+                    width * this.transform.anchorMin.x + this.transform.offsetUpperLeft.x,
+                    height * this.transform.anchorMin.y + this.transform.offsetUpperLeft.y)
+                const lowerRight = new Vector2(
+                    width * this.transform.anchorMax.x + this.transform.offsetLowerRight.x,
+                    height * this.transform.anchorMax.y + this.transform.offsetLowerRight.y)
+
+                this.transform.position = new Vector2(
+                    Engine.letterBoxingWidth/2 + (upperLeft.x + lowerRight.x) / 2, 
+                    Engine.letterBoxingHeight/2 + (upperLeft.y + lowerRight.y) / 2)
+                this.transform.scale = new Vector2((lowerRight.x - upperLeft.x) / 2, (lowerRight.y - upperLeft.y) / 2)
+            }
+        }
         ctx.setTransform(ctx.getTransform().multiply(this.transform.getWorldMatrix()))
-        for(const component of this.components){
+        for (const component of this.components) {
             // @ts-expect-error
             component.draw?.(ctx)
         }
@@ -105,7 +137,7 @@ class GameObject{
     /**
      * Mark the game object for destruction
      */
-    destroy(){
+    destroy() {
         this.markForDestroy = true
     }
 
@@ -115,8 +147,8 @@ class GameObject{
      * @param {new (...args: any[]) => T} type The type of the component you are getting
      * @returns {T|undefined} The first component of the given type, undefined otherwise
      */
-    getComponent(type){
-        return /** @type {T|undefined} */ (this.components.find(c=>c instanceof type))
+    getComponent(type) {
+        return /** @type {T|undefined} */ (this.components.find(c => c instanceof type))
     }
 
     /**
@@ -124,16 +156,16 @@ class GameObject{
      * @param {String} name The name of the game object to find
      * @returns The first game object with the give name in the list of game object, undefined otherwise
      */
-    static find(name){
+    static find(name) {
         //return SceneManger.currentScene.gameObjects.find(function(go){return go.name == name})
-        return SceneManager.currentScene.gameObjects.find(go=>go.name == name )
+        return SceneManager.currentScene.gameObjects.find(go => go.name == name)
     }
 
-    static findGameObjectsWithTag(tag){
-        return SceneManager.currentScene.gameObjects.filter(go=>go.tags.includes(tag) )
+    static findGameObjectsWithTag(tag) {
+        return SceneManager.currentScene.gameObjects.filter(go => go.tags.includes(tag))
     }
 
-    static findGameObjectsByType(type){
-        return SceneManager.currentScene.gameObjects.filter(go=>go.components.find(c=>c instanceof type))
+    static findGameObjectsByType(type) {
+        return SceneManager.currentScene.gameObjects.filter(go => go.components.find(c => c instanceof type))
     }
 }

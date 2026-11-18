@@ -15,6 +15,8 @@ class Polygon extends Component {
     /** @type{Vector2[]} The points in the polygon*/
     points = []
 
+    alpha = 1
+
     /**
      * 
      * @param {CanvasRenderingContext2D} ctx The drawing context
@@ -27,11 +29,8 @@ class Polygon extends Component {
         //Signaling to the context that I'm going to draw something
         ctx.save()
 
-        //Set center of our object
-        // ctx.translate(this.transform.position.x, this.transform.position.y)
-        // ctx.rotate(this.transform.rotation)
-        // ctx.scale(this.transform.scale.x, this.transform.scale.y)
-
+        ctx.globalAlpha = this.alpha
+        
         //Move to the corners of the polygon representing our game object
         ctx.beginPath()
         for(const point of this.points){
